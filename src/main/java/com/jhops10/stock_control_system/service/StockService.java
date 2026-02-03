@@ -9,9 +9,11 @@ import java.io.IOException;
 public class StockService {
 
     private final ReportService reportService;
+    private final PurchaseSectorService purchaseSectorService;
 
-    public StockService(ReportService reportService) {
+    public StockService(ReportService reportService, PurchaseSectorService purchaseSectorService) {
         this.reportService = reportService;
+        this.purchaseSectorService = purchaseSectorService;
     }
 
 
@@ -28,7 +30,7 @@ public class StockService {
                     var reorderQuantity = calculateReorderQuantity(item);
 
                     //2. Para cada item do csv, chamar a api do setor de compras
-
+                    purchaseSectorService.sendPurchaseRequest(item, reorderQuantity);
                     //3. Salvar no mongodb os itens que foram recomprados
                 }
             });
